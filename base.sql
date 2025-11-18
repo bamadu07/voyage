@@ -61,3 +61,12 @@ INSERT INTO avis (destination_id, nom_client, note, commentaire, approuve) VALUE
 (3, 'Sophie Martin', 5, 'Rome est magnifique, riche en histoire et culture. Le guide était très compétent.', TRUE),
 (4, 'Thomas Bernard', 5, 'Lune de miel parfaite aux Maldives. Le resort était luxueux et le service impeccable.', TRUE),
 (7, 'Camille Petit', 4, 'Santorini est un rêve. Les couchers de soleil sont encore plus beaux en réalité.', TRUE);
+
+-- Creation d'un utilisateur pour la base de données
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'agent', 'client') DEFAULT 'client',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
