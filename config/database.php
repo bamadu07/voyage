@@ -17,20 +17,35 @@ class Database {
         }
         return $this->conn;
     }
-    
+
     // Connexion utilisateur 
-    function connecter($email, $password)
+    function connecter($email, $mdp)
     {
-        global $db;
         try {
-            $req = $db->prepare("SELECT * FROM user WHERE email =:email AND mdp =:password");
+            $req = $this->conn->prepare("SELECT * FROM user WHERE email =:email AND mdp =:mdp");
 
             $req->execute([
                 'email' => $email,
-                'password' => $password,
+                'mdp' => $mdp,
             ]);
 
             return $req->fetch(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            die("Erreur : " . $e->getMessage());
+        }
+    }
+
+    
+    // Récupérer tous les utilisateurs
+     function user()
+    {
+        try {
+            $req = $this->conn->prepare("SELECT * FROM user
+            ORDER BY nom ASC");
+
+            $req->execute();
+
+            return $req->fetchAll(PDO::FETCH_OBJ);
         } catch (PDOException $e) {
             die("Erreur : " . $e->getMessage());
         }
